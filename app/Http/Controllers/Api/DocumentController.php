@@ -23,6 +23,17 @@ class DocumentController {
 
     public function searchInDocument(DocumentSearchRequest $documentSearchRequest){
         dd($documentSearchRequest->all());
+
+        $versions = DocumentHeader::when($documentSearchRequest->module , function($q) use($documentSearchRequest){
+                                        $q->where('module' , 'LIKE' , "%{$documentSearchRequest->module}%");
+                                    })
+                                    ->when($documentSearchRequest->module , function($q) use($documentSearchRequest){
+                                        $q->whereJSONContains('metadata->tags' , $documentSearchRequest->tags);
+                                    })
+                                    ->when($documentSearchRequest->module , function($q) use($documentSearchRequest){
+                                        $q->where('owner' , "$documentSearchRequest->user_id");
+                                    })->paginate();
+        return ApiResponse::returnJSON(new GlobalCollection($versions , 'DocumentVersion'));
     }
 
 }

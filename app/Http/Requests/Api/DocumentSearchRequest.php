@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Http\Requests\Api\BaseApiRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DocumentSearchRequest extends FormRequest
+class DocumentSearchRequest extends BaseApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +23,9 @@ class DocumentSearchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "module"  => "nullable|string",
+            "tags"    => "nullable|string",
+            "owner"   => "nullable|int",
         ];
     }
 }
