@@ -65,3 +65,9 @@ php artisan serve
 **Api Collection Link **
 
 #Import this "royal_class.postman_collection.json" in postman , then run server , start test by call every endpoint
+
+
+#######packages#######
+
+https://spatie.be/docs/laravel-permission/v6/introduction => for roles and permissions
+https://nwidart.com/laravel-modules/v6/introduction => for modules 

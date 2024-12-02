@@ -13,7 +13,7 @@ class DocumentSeeder extends Seeder
     {
         $encryptedObject = new EncryptionService;
         (new DocumentService($encryptedObject))->storeDocument([
-            'module'     => 1,
+            'module'     => "General",
             'metadata'   => [],
             'body'       => 'hi every body',
         ]);

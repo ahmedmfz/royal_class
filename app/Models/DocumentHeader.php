@@ -23,4 +23,9 @@ class DocumentHeader extends Model
     {
         return $this->hasMany(Version::class, 'document_id' , 'id');
     }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class , 'user_id' , 'id');
+    }
 }
