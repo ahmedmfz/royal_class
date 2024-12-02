@@ -62,8 +62,6 @@ php artisan db:run-chained-migrations
 php artisan serve
 
 #####################
-## **Installation**
-
-```Api Collection Link 
+**Api Collection Link **
 
 #Import this "royal_class.postman_collection.json" in postman , then run server , start test by call every endpoint
