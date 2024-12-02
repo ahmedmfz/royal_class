@@ -1,0 +1,11 @@
+{
+    "name": "Motors",
+    "alias": "motors",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Motors\\Providers\\MotorsServiceProvider"
+    ],
+    "files": []
+}
