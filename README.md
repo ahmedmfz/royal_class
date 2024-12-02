@@ -66,4 +66,4 @@ php artisan serve
 
 ```Api Collection Link 
 
-#Import this in postman , then run server , start test by call every endpoint
+#Import this "royal_class.postman_collection.json" in postman , then run server , start test by call every endpoint
