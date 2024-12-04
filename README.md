@@ -22,11 +22,11 @@ Make sure you have the following installed on your system:
 | Tool         | Version   | Installation Guide                                             |
 |--------------|-----------|----------------------------------------------------------------|
 | **PHP**      | 8.2+      | [Install PHP](https://www.php.net/manual/en/install.php)       |
-| **Composer** | Latest    | [Install Composer](https://getcomposer.org/)                  |
-| **Node.js**  | v16+      | [Install Node.js](https://nodejs.org/)                        |
-| **npm**      | Latest    | [Install npm](https://www.npmjs.com/)                         |
-| **MySQL**    | Latest    | [Install MySQL](https://dev.mysql.com/downloads/mysql/)       |
-| **Laravel**  | Pre-bundled | Comes pre-installed with the project repository.            |
+| **Composer** | Latest    | [Install Composer](https://getcomposer.org/)                   |
+| **Node.js**  | v16+      | [Install Node.js](https://nodejs.org/)                         |
+| **npm**      | Latest    | [Install npm](https://www.npmjs.com/)                          |
+| **MySQL**    | Latest    | [Install MySQL](https://dev.mysql.com/downloads/mysql/)        |
+| **Laravel**  | Pre-bundled | Comes pre-installed with the project repository.             |
 
 ---
 
@@ -61,13 +61,23 @@ php artisan db:run-chained-migrations
 ```run server
 php artisan serve
 
+
 #####################
 **Api Collection Link **
-
 #Import this "royal_class.postman_collection.json" in postman , then run server , start test by call every endpoint
 
 
 #######packages#######
-
 https://spatie.be/docs/laravel-permission/v6/introduction => for roles and permissions
 https://nwidart.com/laravel-modules/v6/introduction => for modules 
+
+
+## Encryption And Decryption Workflow Overview
+#	Encryption:
+•	Generate a unique key per document.
+•	Encrypt the document body using the unique key.
+•	Encrypt the unique key using the application key and store it securely.
+#	Decryption:
+•	Retrieve and decrypt the unique key using the application key.
+•	Use the unique key to decrypt the document body.
+•	Make checksum by hash body 

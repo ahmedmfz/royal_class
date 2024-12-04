@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Storage;
 
 
 class EncryptionService
@@ -11,6 +12,9 @@ class EncryptionService
 
     public function encryptDocument($data)
     {
+        //Avoid Attack 
+        $data  = \htmlspecialchars($data);
+        
         // Step 1: Generate a unique encryption key for the document
         $perDocumentKey = \random_bytes(32); // 256-bit key
 
@@ -21,27 +25,38 @@ class EncryptionService
         $iv = \random_bytes(openssl_cipher_iv_length($this->cipher));
         $encryptedBody = openssl_encrypt($data, $this->cipher, $perDocumentKey, 0, $iv);
 
+        // Store the document in storage (S3 or local)
+        $path = 'documents/'. time() . '.txt';
+        Storage::put($path, base64_encode($iv . $encryptedBody) , 'public');
+        
         return [
-            'encryptedKey'   => $encryptedKey,
-            'encryptedBody'  => base64_encode($iv . $encryptedBody)
+            'encryptedKey'   =>  $encryptedKey,
+            'storage_path'   =>  $path,
+            'preview'        =>  substr($data, 0, 100),
         ];
     }
 
     public function decryptDocument($documentHeaderObject)
     {
         $perDocumentKey = Crypt::decrypt($documentHeaderObject->encryption_key);
-
-        // Step 2: Decode IV and encrypted body
-        $encryptedBody = base64_decode($documentHeaderObject->body->encrypted_body);
+  
+        // Step 2: Retrieve the encrypted document from storage
+        $encryptedData = base64_decode(Storage::get($documentHeaderObject->body->storage_path));
+    
+        // Step 3: Extract the IV and encrypted body
         $ivLength = openssl_cipher_iv_length($this->cipher);
-        $iv = substr($encryptedBody, 0, $ivLength);
-        $encryptedBodyContent = substr($encryptedBody, $ivLength);
+        $iv = substr($encryptedData, 0, $ivLength);
+        $encryptedBody = substr($encryptedData, $ivLength);
 
-        // Step 3: Decrypt the body
-        $decryptedBody = openssl_decrypt($encryptedBodyContent, $this->cipher, $perDocumentKey, 0, $iv);
+        // Step 4: Decrypt the document body
+        $decryptedBody = openssl_decrypt($encryptedBody, $this->cipher, $perDocumentKey, 0, $iv);
 
+        if ($decryptedBody === false) {
+            throw new \Exception('Decryption failed. Data may be corrupted or the key is invalid.');
+        }
+      
         // Step 4: Verify checksum
-        if ($this->checksum($encryptedBodyContent) !== $documentHeaderObject->body->checksum) {
+        if ($this->checksum($decryptedBody) !== $documentHeaderObject->body->checksum) {
             throw new \Exception('Integrity check failed!');
         }
 

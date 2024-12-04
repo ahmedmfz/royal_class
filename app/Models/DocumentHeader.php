@@ -19,6 +19,11 @@ class DocumentHeader extends Model
         return $this->hasMany(DocumentBody::class , 'document_id' , 'id');
     }
 
+    public function body()
+    {
+        return $this->hasOne(DocumentBody::class , 'document_id' , 'id');
+    }
+
     public function versions()
     {
         return $this->hasMany(Version::class, 'document_id' , 'id');

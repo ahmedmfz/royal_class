@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class DocumentStoreRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,9 +23,10 @@ class DocumentStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'module' => 'required|string',
-            'body' => 'required|string',
+            'module'   => 'required|string',
+            'body'     => 'required|string',
             'metadata' => 'nullable|array',
         ];
     }
+    
 }

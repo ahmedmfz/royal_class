@@ -16,7 +16,7 @@ class ApiResponse {
      * @return Response
     */
     public static function returnJSON($data = [], $status = true,
-        $code = JsonResponse::HTTP_OK, $message = 'data get successfully')
+        $code = JsonResponse::HTTP_OK, $message = 'Your data get successfully')
     { 
         return response()->json([
             'status' => $status,

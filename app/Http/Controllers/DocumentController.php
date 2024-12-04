@@ -23,5 +23,5 @@ class DocumentController extends Controller
     {
         $this->documentService->storeDocument($documentStoreRequest->validated());
         return response()->json(['message' => 'Document stored successfully']);
-    }
+    }           
 }

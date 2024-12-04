@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class DocumentBody extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['document_id', 'body', 'checksum'];
+    protected $fillable = ['document_id', 'storage_path', 'preview' ,  'checksum'];
 
     public function header()
     {

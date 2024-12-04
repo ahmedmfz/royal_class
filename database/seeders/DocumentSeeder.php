@@ -15,7 +15,7 @@ class DocumentSeeder extends Seeder
         (new DocumentService($encryptedObject))->storeDocument([
             'module'     => "General",
             'metadata'   => [],
-            'body'       => 'hi every body',
+            'body'       => fake()->text(),
         ]);
     }
 

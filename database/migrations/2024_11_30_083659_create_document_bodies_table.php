@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('document_bodies', function (Blueprint $table) {
             $table->id();
             $table->foreignId('document_id')->constrained('document_headers')->onDelete('cascade');
-            $table->text('body')->nullable(); 
+            $table->longText('preview')->nullable(); // Small searchable content
+            $table->string('storage_path'); // Path to the file storage
             $table->string('checksum');
             $table->softDeletes();
             $table->timestamps();

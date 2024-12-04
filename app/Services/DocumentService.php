@@ -25,17 +25,18 @@ class DocumentService {
                 'metadata' => $validated['metadata'] ?? [],
                 'encryption_key' => $encrypted['encryptedKey'],
             ]);
-        
-            $this->storeDocumentBodies($header , $encrypted['encryptedBody'], $checksum);
+            
+            $this->storeDocumentBodies($header , $encrypted['storage_path'], $encrypted['preview'] ,  $checksum);
             $this->storeDocumentVersion($header);
         });
     }
 
-    public function storeDocumentBodies($header , $encryptedBody , $checksum)
+    public function storeDocumentBodies($header , $path , $preview , $checksum)
     {
         $header->bodies()->create([
-            'body'        => $encryptedBody,
-            'checksum'    => $checksum,
+            'storage_path'  => $path,
+            'preview'  => $preview,
+            'checksum'      => $checksum,
         ]);
     }
         
