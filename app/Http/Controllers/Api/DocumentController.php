@@ -3,13 +3,30 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Api\DocumentSearchRequest;
+use App\Http\Requests\Api\DocumentStoreRequest;
+use App\Http\Resources\DocumentHeaderResource;
 use App\Http\Resources\GlobalCollection;
 use App\Models\DocumentHeader;
 use App\Services\ApiResponse;
+use App\Services\DocumentService;
+use App\Services\EncryptionService;
 
 class DocumentController {
 
-    public function getDocumentVersion(DocumentHeader $documentHeader){
+    public function storeDocument(DocumentStoreRequest $documentStoreRequest){
+        (new DocumentService(new EncryptionService))->storeDocument([
+            'module'     => $documentStoreRequest->module,
+            'metadata'   => $documentStoreRequest->metadata ?? [],
+            'body'       => $documentStoreRequest->body,
+        ]);
+        return ApiResponse::returnSuccess('You added Document Successfully');
+    }
+
+    public function viewDocument(DocumentHeader $documentHeader){
+        return ApiResponse::returnJSON(new DocumentHeaderResource($documentHeader));
+    }
+
+    public function getDocumentVersions(DocumentHeader $documentHeader){
         $versions = $documentHeader->versions()->paginate();
         return ApiResponse::returnJSON(new GlobalCollection($versions , 'DocumentVersion'));
     }

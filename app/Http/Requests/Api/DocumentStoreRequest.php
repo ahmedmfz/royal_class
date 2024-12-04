@@ -4,7 +4,8 @@ namespace App\Http\Requests\Api;
 
 use App\Http\Requests\Api\BaseApiRequest;
 
-class DocumentSearchRequest extends BaseApiRequest
+
+class DocumentStoreRequest extends BaseApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +23,9 @@ class DocumentSearchRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            "module"  => "nullable|string",
-            "tags"    => "nullable|string",
-            "owner"   => "nullable|int",
+            "module"      => "required|exists:modules,name",
+            "metadata"    => "nullable|array",
+            "body"        => "required|string",
         ];
     }
 }
